@@ -1,43 +1,43 @@
-database={}
+import time
+database = {}
+
 
 class Bank:
 
-    def __init__(self,name,age,balance):
-        self.name=name
-        self.age=age
-        self.balance=balance
+    def _init_(self, name, balance):
 
-        if age<21:
-            print("You can't have a bank account")
+        self.name = name
+        self.balance = balance
+        database.update({name: balance})
 
+    def deposit(self):
+        amount = int(input('Enter the deposit amount: '))
+        if amount > 0:
+            self.balance += amount
+            print("Successful Transaction.\nNew Balance:"+str(self.balance))
+            database[self.name] = self.balance
         else:
-            print("sucessfully registred") 
+            print('Unsuccessful Transaction.\nTry again')
 
-    def  bank_account(name,balance):
-        database.update({name:balance})  
-        return database
-    
-    def deposit(balance,amount):
-
-        if amount>0:
-          balance=balance+amount
-          print("Successful Transaction\nNew balance:"+str(balance))
-
+    def withdraw(self):
+        amount = int(input('Enter the withdrawl amount: '))
+        if amount <= self.balance and amount > 0:
+            self.balance -= amount
+            print("Successful Transaction.\nNew Balance:"+str(self.balance))
+            database[self.name] = self.balance
         else:
-            print("unsuccessful transaction")
+            print('Unsuccessful Transaction\nTry again')
 
-    def withdraw(balance,amount): 
-        if amount>balance or amount<0:
-            print("Unsuccessful Transaction")  
-
+    def transfer(self):
+        receiver = input("Enter the name of receiver:")
+        if receiver in database.keys() and receiver != self.name:
+            amount = int(input("Enter the amount:"))
+            if amount <= self.balance:
+                self.balance -= amount
+                database[self.name] = self.balance
+                print(
+                    f"Successful Transaction\n{str(amount)} transferred to {receiver}\n Your New Balance:{self.balance}")
+            else:
+                print("Unsuccessful Transaction.Try again")
         else:
-            balance=balance-amount
-            print("successful transaction\nNew balance:"+str(balance))         
-
-    
-    
-d=Bank("nada",16,10000)
-print(Bank.bank_account("nada",10000))
-s=Bank.deposit(10000,10000)
-t=Bank.withdraw(20000,10000)
-
+            print("TRY AGAIN")
